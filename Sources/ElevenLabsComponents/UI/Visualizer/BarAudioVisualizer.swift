@@ -165,7 +165,7 @@ extension BarAudioVisualizer {
 
         func duration(agentState: AgentState) -> TimeInterval {
             switch agentState {
-            case .connecting, .initializing: 2 / Double(barCount)
+            case .initializing: 2 / Double(barCount)
             case .listening: 0.5
             case .thinking: 0.15
             case .speaking: veryLongDuration
@@ -175,10 +175,10 @@ extension BarAudioVisualizer {
 
         func highlightingSequence(agentState: AgentState) -> [HighlightedBars] {
             switch agentState {
-            case .connecting, .initializing: (0 ..< barCount).map { HighlightedBars([$0, barCount - 1 - $0]) }
+            case .initializing: (0 ..< barCount).map { HighlightedBars([$0, barCount - 1 - $0]) }
             case .thinking: Array((0 ..< barCount) + (0 ..< barCount).reversed()).map { HighlightedBars([$0]) }
             case .listening: barCount % 2 == 0 ? [[(barCount / 2) - 1, barCount / 2], []] : [[barCount / 2], []]
-            case .speaking, .unknown: [HighlightedBars(0 ..< barCount)]
+            case .speaking, .idle: [HighlightedBars(0 ..< barCount)]
             case .disconnected: [[]]
             }
         }
